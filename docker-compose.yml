@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: life_erp
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: lifeerp
+      MYSQL_PASSWORD: lifeerp
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/life_erp?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: lifeerp
+      SPRING_DATASOURCE_PASSWORD: lifeerp
+      JWT_SECRET: change-this-secret-change-this-secret-change-this-secret
+      APP_CORS_ALLOWED_ORIGINS: http://localhost:5173,http://localhost:8081
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:8080/api/v1
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql-data:
+

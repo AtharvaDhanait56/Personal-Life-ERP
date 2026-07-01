@@ -1,0 +1,38 @@
+server:
+  # Render (and most PaaS providers) inject a PORT env var and route traffic
+  # to it; falls back to 8080 for local/Docker Compose use.
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: life-erp-api
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/life_erp?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 25MB
+
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:8081}
+  jwt:
+    secret: ${JWT_SECRET:8kP4vWm9LQe2Jd7TxB5nYs1ZrH6FgUaC3NpXvM8RtKePqL9DsW}
+    access-token-minutes: 30
+    refresh-token-days: 14
+  storage:
+    local-root: ${APP_STORAGE_ROOT:./storage}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
