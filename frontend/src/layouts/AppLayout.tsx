@@ -8,6 +8,7 @@ import {
   FolderClosed,
   Gauge,
   Landmark,
+  LogOut,
   Moon,
   Sun,
   Target,
@@ -27,7 +28,7 @@ const nav = [
   { to: "/analytics", label: "Analytics", icon: BarChart3 }
 ];
 
-export function AppLayout({ children }: { children: ReactNode }) {
+export function AppLayout({ children, onLogout }: { children: ReactNode; onLogout: () => void }) {
   const [theme, setTheme] = useState<Theme>(() => getStoredTheme());
 
   const toggleTheme = () => {
@@ -49,7 +50,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
 
       <div className="relative flex min-h-screen">
 
-        <aside className="hidden w-72 shrink-0 border-r border-white/10 bg-black/20 p-5 backdrop-blur-xl lg:block">
+        <aside className="hidden w-72 shrink-0 flex-col border-r border-white/10 bg-black/20 p-5 backdrop-blur-xl lg:flex">
 
           <Link to="/" className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-md bg-teal text-slate-950">
@@ -84,6 +85,15 @@ export function AppLayout({ children }: { children: ReactNode }) {
               </NavLink>
             ))}
           </nav>
+
+          <button
+            type="button"
+            onClick={onLogout}
+            className="mt-auto flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted transition hover:bg-white/10 hover:text-ink"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
 
         </aside>
 

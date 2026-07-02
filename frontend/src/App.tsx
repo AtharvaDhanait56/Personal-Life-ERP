@@ -18,8 +18,14 @@ export default function App() {
     return <Auth onAuthenticated={() => setAuthenticated(true)} />;
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("life-erp-token");
+    setAuthenticated(false);
+  };
+
   return (
-    <AppLayout>
+    <AppLayout onLogout={handleLogout}>
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/tasks" element={<Tasks />} />
