@@ -68,7 +68,16 @@ export function AppLayout({ children, onLogout }: { children: ReactNode; onLogou
             </span>
           </Link>
 
-          <nav className="mt-8 grid gap-1">
+          <button
+            type="button"
+            onClick={onLogout}
+            className="mt-4 flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted transition hover:bg-white/10 hover:text-ink"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
+
+          <nav className="mt-4 grid gap-1">
             {nav.map((item) => (
               <NavLink
                 key={item.to}
@@ -85,15 +94,6 @@ export function AppLayout({ children, onLogout }: { children: ReactNode; onLogou
               </NavLink>
             ))}
           </nav>
-
-          <button
-            type="button"
-            onClick={onLogout}
-            className="mt-auto flex items-center gap-3 rounded-md px-3 py-2.5 text-sm text-muted transition hover:bg-white/10 hover:text-ink"
-          >
-            <LogOut size={18} />
-            Logout
-          </button>
 
         </aside>
 
