@@ -63,7 +63,7 @@ export default function Attachments({
           fileName: document.fileName,
           contentType:
             document.contentType ?? "",
-          sizeBytes:
+          sizeBytes:  
             document.sizeBytes,
         });
 
